@@ -1,5 +1,6 @@
-from modules.data_reader import *
+from modules.analyzer import Analyzer
 
 if __name__ == "__main__":
-    source = r"C:\1.PyProject\HouseExpenseAnalyzer\Data\CC_TXN_History_01012018215522.xls"
-    scr_reader = ExcelReader(source)
+    source = r"C:\1.PyProject\ExpenseAnalyzer\Data\CC_TXN_History_01012018215522.xlsx"
+    analyzer = Analyzer(source)
+    analyzer.analyse()
