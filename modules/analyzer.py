@@ -1,4 +1,5 @@
 import os
+import json
 from file_parser import XlsxParser
 
 
@@ -10,6 +11,7 @@ class Analyzer:
         self.scr_parser = XlsxParser(scr_file)
         self.parsed_records = []
         self.shop_dict = {}
+        self.category_dict = {}
 
     def analyse_recrods(self):
         for record in self.parsed_records:
@@ -18,7 +20,7 @@ class Analyzer:
             shop_spent_init = {"spent": 0, "times": 0}
             for header, infor in record:
                 if header == "Description":
-                    shop_name = infor.split('\n')[0]
+                    shop_name = infor.split('\n')[0][:-16]
                 elif header == "Transaction Amount(Local)":
                     single_spend = float(infor) if infor[-1] != "L" else float("".join(infor[:-1]))
             shop_spent_infor = self.shop_dict.setdefault(shop_name, shop_spent_init)
@@ -38,7 +40,7 @@ class Analyzer:
             self.print_list.append((key, amount, times))
         self.print_list.sort(key = lambda x: x[1], reverse=True)
         for key, amount, times in self.print_list:
-            print "Shop Name:{0}\tSpent Total Amount: {1:6.2f}\tTimes: {2}".format(key, amount, times)
+            print "Shop Name:{0}\t|\tSpent Total Amount: {1:6.2f}\t|\tTimes: {2}".format(key, amount, times)
 
     def analyse(self):
         self.parsed_records = self.scr_parser.parse_data()
