@@ -1,0 +1,1 @@
+{"FAIRPRICE FINEST-WATERWAY": "Supermarket", "NUFFIELD DENTAL SELETAR  ": "Cosmetic dentist in Singapore", "HAN'S CAFE - CHANGI CITY ": "Restaurant", "CHILLIPADI               ": "Restaurant", "96 BEVERAGE              ": "Food Products Supplier", "FariPrice": "SuperMarket"}
