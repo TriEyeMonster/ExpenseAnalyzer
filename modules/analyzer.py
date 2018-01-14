@@ -23,11 +23,9 @@ class Analyzer:
         if self.category_dict.get(shop_name, False):
             return self.category_dict.get(shop_name)
         category = self.google_hander.search_page(shop_name)
-        if not category:
-            return 'Others'
-        self.category_dict[shop_name] = category
+        self.category_dict[shop_name] = category if category is not None else 'Others'
         print 'Category of %s get from Google is %s' % (shop_name, category)
-        json.dump(self.category_dict, open(CATEGORY, 'w'))
+        json.dump(self.category_dict, open(CATEGORY, 'w'), indent=4)
         print 'sleep 20 secs'
         time.sleep(20)
         return category
@@ -70,9 +68,15 @@ class Analyzer:
 
     def print_result_by_category(self):
         self.print_list = []
-        print "%15s|%10s|\n%s" % ('Category', 'Spent', '-'*26)
-        for category, spent in self.spent_by_category_dict.iteritems():
-            print "%15s|%10s|" %(category, spent)
+        total = sum(self.spent_by_category_dict.values())
+        sorted_spent = self.spent_by_category_dict.values()
+        sorted_spent.sort(reverse = True)
+        print "%15s|%10s|%11s|\n%s" % ('Category', 'Spent', 'Percentage', '-'*39)
+        for spent in sorted_spent:
+            for category, s_spent in self.spent_by_category_dict.iteritems():
+                if s_spent == spent:
+                    print "%15s|%10.2f|%10.2f%%|" %(category, spent, float(spent/total)*100)
+        print "%s\n%15s|%10.2f|%10s%%|" % ('-'*39, 'Total', total, 100)
         print '\n\n'
 
     def print_result(self):
