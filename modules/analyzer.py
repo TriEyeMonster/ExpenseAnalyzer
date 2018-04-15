@@ -36,6 +36,18 @@ class Analyzer:
         self.spent_by_category_dict[category] = self.spent_by_category_dict.get(category, 0.) + single_spent
 
 
+    def get_shopname(self, raw_name):
+        if "*" in raw_name:
+            return raw_name.split("*")[0]
+        elif "@" in raw_name:
+            return raw_name.split("@")[0]
+        elif "-" in raw_name:
+            return raw_name.split("-")[0]
+        elif " " in raw_name:
+            return raw_name.split(" ")[0]
+        else:
+            return raw_name
+
     def analyse_recrods(self):
         for record in self.parsed_records:
             shop_name = ""
@@ -44,8 +56,11 @@ class Analyzer:
             for header, infor in record:
                 if header == "Description":
                     shop_name = infor.split('\n')[0][:-15]
+                    #shop_name = self.get_shopname(shop_name)
                 elif header == "Transaction Amount(Local)":
                     single_spend = float(infor) if infor[-1] != "L" else float("".join(infor[:-1]))
+            if single_spend < 0 or shop_name == "P":
+                continue
             shop_spent_infor = self.spent_by_shop_dict.setdefault(shop_name, shop_spent_init)
             shop_spent_infor["spent"] += single_spend
             shop_spent_infor["times"] += 1
