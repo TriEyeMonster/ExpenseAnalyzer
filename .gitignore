@@ -3,5 +3,5 @@
 .idea/
 Data/
 *.pyc
-Data/Jan_Expense.xlsx
+*.xlsx
 *.csv
