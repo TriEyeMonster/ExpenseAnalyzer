@@ -3,17 +3,6 @@ from modules.analyzer import Analyzer
 
 
 if __name__ == "__main__":
-    # source = r"/Users/wguan17/PycharmProjects/ExpenseAnalyzer/Data/Apr_Expense.xlsx"
-    # analyzer = Analyzer(source)
-    # analyzer.analyse()
-
-    def splitDataFrameList(df, target_column, separator):
-        ''' df = dataframe to split,
-        target_column = the column containing the values to split
-        separator = the symbol used to perform the split
-        returns: a dataframe with each entry for the target column separated, with each element moved into a new row.
-        The values in the other columns are duplicated across the newly divided rows.
-        '''
 
     src_file = r"Data/May.xls"
     df = pd.read_excel(src_file, skiprows=range(1, 9), header=1)
@@ -28,8 +17,8 @@ if __name__ == "__main__":
     analyzer = Analyzer()
     df['Category'] = pd.Series(df['Shop'].apply(analyzer.get_category), index=df.index)
     df['Date'] = pd.to_datetime(df['Date'])
-    df
-    agg_amt = df.groupby('Date').sum().plot()
-    agg_amt
+    print(df.groupby(['Category', 'Shop']).sum())
+    print(df.groupby('Category').sum().sort_values('Amount', ascending=False))
+    print(df.groupby('Date').sum())
 
 
